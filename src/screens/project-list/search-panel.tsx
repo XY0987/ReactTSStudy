@@ -1,7 +1,24 @@
 import React from 'react'
 
+export interface User {
+  id: string
+  name: string
+  email: string
+  title: string
+  organization: string
+}
+
+interface SearchPanel {
+  users: User[]
+  param: {
+    name: string
+    personId: string
+  }
+  setParam: (param: SearchPanel['param']) => void
+}
+
 // 结构赋值
-export default function searchPanel({ users, param, setParam }) {
+export default function searchPanel({ users, param, setParam }: SearchPanel) {
   return (
     <form>
       <div>
