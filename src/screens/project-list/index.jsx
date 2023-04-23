@@ -3,7 +3,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import SearchPanel from './search-panel'
 import List from './list'
-import { cleanObject } from 'utils'
+import { cleanObject, useDebounce, useMount } from 'utils'
 
 import * as qs from 'qs'
 
@@ -18,22 +18,26 @@ export default function ProjectListScreen() {
   })
   const [list, setList] = useState([])
 
+  const debouncedParam = useDebounce(param, 2000)
+
   //   当param的值改变的时候会执行这个函数
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(param))}`).then(async (response) => {
-      if (response.ok) {
-        setList(await response.json())
+    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`).then(
+      async (response) => {
+        if (response.ok) {
+          setList(await response.json())
+        }
       }
-    })
-  }, [param])
+    )
+  }, [debouncedParam])
 
-  useEffect(() => {
+  useMount(() => {
     fetch(`${apiUrl}/users`).then(async (response) => {
       if (response.ok) {
         setUsers(await response.json())
       }
     })
-  }, [])
+  })
   return (
     <div>
       <SearchPanel users={users} param={param} setParam={setParam}></SearchPanel>
