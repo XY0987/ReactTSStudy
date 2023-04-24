@@ -4,7 +4,7 @@ const apiUrl = 'http://localhost:3001'
 
 export const LoginScreen = () => {
   const login = (params: { username: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
+    fetch(`${apiUrl}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ export const LoginScreen = () => {
         <label htmlFor="password">密码</label>
         <input type="password" id={'userpassword'} placeholder="请输入密码" />
       </div>
-      <button type={'submit'}>登录</button>
+      <button type={'submit'}>注册</button>
     </form>
   )
 }
