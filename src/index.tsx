@@ -5,9 +5,15 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { loadDevTools } from 'jira-dev-tool'
 
+import { AppProviders } from 'context'
+
 loadDevTools(() => {
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-  root.render(<App />)
+  root.render(
+    <AppProviders>
+      <App />
+    </AppProviders>
+  )
 })
 
 // If you want to start measuring performance in your app, pass a function
