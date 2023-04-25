@@ -3,16 +3,17 @@ import React from 'react'
 import ProjectListScreen from 'screens/project-list'
 
 import styled from '@emotion/styled'
+import { Row } from 'components/lib'
 
 export const AuthenticatedApp = () => {
   const { logout } = useAuth()
   return (
     <Container>
-      <Header>
-        <HeaderLeft>
-          <h3>logo</h3>
-          <h3>项目</h3>
-          <h3>用户</h3>
+      <Header between={true}>
+        <HeaderLeft gap={true}>
+          <HeaderItem>logo</HeaderItem>
+          <HeaderItem>项目</HeaderItem>
+          <HeaderItem>用户</HeaderItem>
         </HeaderLeft>
         <HeaderRight>
           <button onClick={() => logout()}>登出</button>
@@ -25,23 +26,19 @@ export const AuthenticatedApp = () => {
   )
 }
 
+const HeaderItem = styled.h3`
+  margin-right: 3rem;
+`
+
 const Container = styled.div`
   display: grid;
   grid-template-rows: 6rem 1fr;
   height: 100vh;
 `
 
-const Header = styled.header`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`
+const Header = styled(Row)``
 
-const HeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-`
+const HeaderLeft = styled(Row)``
 
 const HeaderRight = styled.div``
 
