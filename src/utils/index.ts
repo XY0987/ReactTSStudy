@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react'
 
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value) //两个!表示将一个值转化为布尔值
 
+export const isVoid = (value: unknown) => value === undefined || value === null || value === ''
+
 // 在一个函数里边改变传入的对象本身是不好的
-export const cleanObject = (object: object) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
   const result = { ...object }
   Object.keys(result).forEach((key) => {
-    // @ts-ignore
     const value = result[key]
-    if (isFalsy(value)) {
-      // @ts-ignore
+    // 如果使用isFalsy无法避免值为false被删除的情况
+    if (isVoid(value)) {
       delete result[key]
     }
   })
@@ -19,6 +20,7 @@ export const cleanObject = (object: object) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback()
+    // 依赖项里边加入callback会造成无限循环
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }

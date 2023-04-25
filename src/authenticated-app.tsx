@@ -7,10 +7,22 @@ import { Row } from 'components/lib'
 
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
 
-import { Dropdown, Menu } from 'antd'
+import { Dropdown, Menu, Button } from 'antd'
+import type { MenuProps } from 'antd'
 
 export const AuthenticatedApp = () => {
   const { logout, user } = useAuth()
+
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <Button type="link" onClick={logout}>
+          登出
+        </Button>
+      )
+    }
+  ]
   return (
     <Container>
       <Header between={true}>
@@ -20,16 +32,10 @@ export const AuthenticatedApp = () => {
           <HeaderItem>用户</HeaderItem>
         </HeaderLeft>
         <HeaderRight>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key={'logout'}>
-                  <a onClick={logout}>登出</a>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <a onClick={(e) => e.preventDefault()}>Hi,{user?.name}</a>
+          <Dropdown menu={{ items }}>
+            <Button type="link" onClick={(e) => e.preventDefault()}>
+              Hi,{user?.name}
+            </Button>
           </Dropdown>
         </HeaderRight>
       </Header>

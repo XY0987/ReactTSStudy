@@ -25,7 +25,7 @@ const bootstrapUser = async () => {
   let user = null
   const token = auth.getToken()
   if (token) {
-    // 去me接口获取值
+    // 去me接口获取值(用户信息)
     const data = await http('me', { token })
     user = data.user
   }
