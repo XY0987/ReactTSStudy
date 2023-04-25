@@ -7,7 +7,7 @@ import { Row } from 'components/lib'
 
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
 
-import { Dropdown, Menu, Button } from 'antd'
+import { Dropdown, Button } from 'antd'
 import type { MenuProps } from 'antd'
 
 export const AuthenticatedApp = () => {
