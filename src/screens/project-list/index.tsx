@@ -6,6 +6,7 @@ import List from './list'
 import { cleanObject, useDebounce, useMount } from 'utils'
 
 import { useHttp } from 'utils/http'
+import styled from '@emotion/styled'
 
 export default function ProjectListScreen() {
   const [users, setUsers] = useState([])
@@ -31,9 +32,14 @@ export default function ProjectListScreen() {
     client('users').then(setUsers)
   })
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel users={users} param={param} setParam={setParam}></SearchPanel>
       <List users={users} list={list}></List>
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  padding: 3.2rem;
+`

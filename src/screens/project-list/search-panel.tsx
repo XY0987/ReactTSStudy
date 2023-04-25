@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Input, Select } from 'antd'
+import { Input, Select, Form } from 'antd'
 
 export interface User {
   id: string
@@ -23,13 +23,16 @@ interface SearchPanel {
 // 结构赋值
 export default function searchPanel({ users, param, setParam }: SearchPanel) {
   return (
-    <form>
-      <div>
+    <Form layout="inline" style={{ marginBottom: '2rem' }}>
+      <Form.Item>
         <Input
           type="text"
+          placeholder="项目名"
           value={param.name}
           onChange={(evt) => setParam({ ...param, name: evt.target.value })}
         />
+      </Form.Item>
+      <Form.Item>
         <Select
           value={param.personId}
           onChange={(value) =>
@@ -46,7 +49,7 @@ export default function searchPanel({ users, param, setParam }: SearchPanel) {
             </Select.Option>
           ))}
         </Select>
-      </div>
-    </form>
+      </Form.Item>
+    </Form>
   )
 }
