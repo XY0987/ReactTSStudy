@@ -7,14 +7,17 @@ import { loadServer, DevTools } from 'jira-dev-tool'
 import 'antd/dist/antd.less'
 
 import { AppProviders } from 'context'
+import { BrowserRouter } from 'react-router-dom'
 
 loadServer(() => {
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
   root.render(
-    <AppProviders>
-      <DevTools />
-      <App />
-    </AppProviders>
+    <BrowserRouter>
+      <AppProviders>
+        <DevTools />
+        <App />
+      </AppProviders>
+    </BrowserRouter>
   )
 })
 

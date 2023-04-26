@@ -10,7 +10,24 @@ import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
 import { Dropdown, Button } from 'antd'
 import type { MenuProps } from 'antd'
 
+import { Routes, Route } from 'react-router'
+import { ProjectScreen } from 'screens/project'
+
 export const AuthenticatedApp = () => {
+  return (
+    <Container>
+      <PageHeader></PageHeader>
+      <Main>
+        <Routes>
+          <Route path="/projects" element={<ProjectListScreen />}></Route>
+          <Route path="/projects/:projectId/*" element={<ProjectScreen />}></Route>
+        </Routes>
+      </Main>
+    </Container>
+  )
+}
+
+const PageHeader = () => {
   const { logout, user } = useAuth()
 
   const items: MenuProps['items'] = [
@@ -24,25 +41,20 @@ export const AuthenticatedApp = () => {
     }
   ]
   return (
-    <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          <SoftwareLogo width={'18rem'} color="rgb(38,132,255)"></SoftwareLogo>
-          <HeaderItem>项目</HeaderItem>
-          <HeaderItem>用户</HeaderItem>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown menu={{ items }}>
-            <Button type="link" onClick={(e) => e.preventDefault()}>
-              Hi,{user?.name}
-            </Button>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
-      <Main>
-        <ProjectListScreen></ProjectListScreen>
-      </Main>
-    </Container>
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <SoftwareLogo width={'18rem'} color="rgb(38,132,255)"></SoftwareLogo>
+        <HeaderItem>项目</HeaderItem>
+        <HeaderItem>用户</HeaderItem>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown menu={{ items }}>
+          <Button type="link" onClick={(e) => e.preventDefault()}>
+            Hi,{user?.name}
+          </Button>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   )
 }
 
