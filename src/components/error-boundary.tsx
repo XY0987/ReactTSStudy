@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 type FallbackRender = (props: { error: Error | null }) => React.ReactElement
 
 // 接收两个泛型参数(第一个是指定prop，第二个是指定state)

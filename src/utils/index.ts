@@ -64,3 +64,18 @@ export const useArray = <T>(arr: T[]) => {
     clear: () => setValue([])
   }
 }
+
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+  const oldTitle = document.title
+  useEffect(() => {
+    document.title = title
+  }, [title])
+  // 返回一个函数会再页面卸载的时候被调用
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        document.title = oldTitle
+      }
+    }
+  }, [])
+}
