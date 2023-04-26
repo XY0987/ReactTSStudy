@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value) //两个!表示将一个值转化为布尔值
 
@@ -66,7 +66,7 @@ export const useArray = <T>(arr: T[]) => {
 }
 
 export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
-  const oldTitle = document.title
+  const oldTitle = useRef(document.title).current
   useEffect(() => {
     document.title = title
   }, [title])
@@ -74,8 +74,9 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
   useEffect(() => {
     return () => {
       if (!keepOnUnmount) {
+        // 这里如果不指定依赖读取到的就是旧title
         document.title = oldTitle
       }
     }
-  }, [])
+  }, [keepOnUnmount, title])
 }
