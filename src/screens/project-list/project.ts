@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useAsync } from 'utils/use-async'
 import { Project } from './list'
 
@@ -10,18 +10,20 @@ export const useProjects = (param?: Partial<Project>) => {
   const { run, ...result } = useAsync<Project[]>()
   const client = useHttp()
 
-  //   当param的值改变的时候会执行这个函数
-  useEffect(() => {
-    const fetchProjects = () =>
+  const fetchProjects = useCallback(
+    () =>
       client('projects', {
         data: cleanObject(param || {})
-      })
+      }),
+    [client, param]
+  )
+  //   当param的值改变的时候会执行这个函数
+  useEffect(() => {
     // 开始就执行了一遍run
     run(fetchProjects(), {
       retry: fetchProjects
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [param])
+  }, [param, run, fetchProjects])
   return result
 }
 
