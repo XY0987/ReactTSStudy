@@ -9,17 +9,17 @@ import { useDebounce, useDocumentTitle } from 'utils'
 import styled from '@emotion/styled'
 import { useProjects } from './project'
 import { useUsers } from './user'
-import { useUrlQueryParam } from 'utils/url'
+import { useProjectSearchParams } from './util'
 
 export default function ProjectListScreen() {
+  useDocumentTitle('项目列表', false)
+
   // 造成无限循环的原因是，数据变化会重新执行这个函数，然后useUrlQueryParam会创建一个新对象
-  const [param, setParam] = useUrlQueryParam(['name', 'personId'])
-  const debouncedParam = useDebounce(param, 2000)
-  const { isLoading, error, data: list } = useProjects(debouncedParam)
+  const [param, setParam] = useProjectSearchParams()
+
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200))
 
   const { data: users } = useUsers()
-
-  useDocumentTitle('项目列表', false)
 
   return (
     <Container>
