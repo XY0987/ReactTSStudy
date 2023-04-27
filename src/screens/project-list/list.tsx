@@ -21,7 +21,7 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[]
   refresh?: () => void
-  setProjectModalOpen: (isOpen: boolean) => void
+  projectButton: JSX.Element
 }
 
 export default function List({ users, ...props }: ListProps) {
@@ -68,13 +68,7 @@ export default function List({ users, ...props }: ListProps) {
           render(value, project) {
             return (
               <div>
-                <ButtonNoPadding
-                  type="link"
-                  onClick={() => props.setProjectModalOpen(true)}
-                  style={{ marginRight: '5px' }}
-                >
-                  编辑
-                </ButtonNoPadding>
+                {props.projectButton}
                 <ButtonNoPadding type="link">删除</ButtonNoPadding>
               </div>
             )

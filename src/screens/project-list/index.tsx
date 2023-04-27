@@ -9,9 +9,7 @@ import { useProjects } from './project'
 import { useUsers } from './user'
 import { useProjectSearchParams } from './util'
 
-export default function ProjectListScreen(props: {
-  setProjectModalOpen: (isOpen: boolean) => void
-}) {
+export default function ProjectListScreen(props: { projectButton: JSX.Element }) {
   useDocumentTitle('项目列表', false)
 
   // 造成无限循环的原因是，数据变化会重新执行这个函数，然后useUrlQueryParam会创建一个新对象
@@ -25,7 +23,7 @@ export default function ProjectListScreen(props: {
     <Container>
       <Row justify="space-between">
         <h1>项目列表</h1>
-        <Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button>
+        {props.projectButton}
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam}></SearchPanel>
       {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
@@ -34,7 +32,7 @@ export default function ProjectListScreen(props: {
         loading={isLoading}
         users={users || []}
         dataSource={list || []}
-        setProjectModalOpen={props.setProjectModalOpen}
+        projectButton={props.projectButton}
       ></List>
     </Container>
   )
