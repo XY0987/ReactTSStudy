@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 import { Pin } from 'components/pin'
 import { useEditProject } from './project'
+import { ButtonNoPadding } from 'components/lib'
 
 export interface Project {
   id: number
@@ -20,9 +21,10 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[]
   refresh?: () => void
+  setProjectModalOpen: (isOpen: boolean) => void
 }
 
-export default function list({ users, ...props }: ListProps) {
+export default function List({ users, ...props }: ListProps) {
   const { mutate } = useEditProject()
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
   return (
@@ -58,6 +60,23 @@ export default function list({ users, ...props }: ListProps) {
           render(value, project) {
             return (
               <span>{project.created ? dayjs(project.created).format('YYYY-MM-DD') : '无'}</span>
+            )
+          }
+        },
+        {
+          title: '操作框',
+          render(value, project) {
+            return (
+              <div>
+                <ButtonNoPadding
+                  type="link"
+                  onClick={() => props.setProjectModalOpen(true)}
+                  style={{ marginRight: '5px' }}
+                >
+                  编辑
+                </ButtonNoPadding>
+                <ButtonNoPadding type="link">删除</ButtonNoPadding>
+              </div>
             )
           }
         }

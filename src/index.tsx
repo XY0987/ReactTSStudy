@@ -5,9 +5,6 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { loadServer, DevTools } from 'jira-dev-tool'
-// eslint-disable-next-line
-import 'antd/dist/antd.less'
-
 import { AppProviders } from 'context'
 import { BrowserRouter } from 'react-router-dom'
 
