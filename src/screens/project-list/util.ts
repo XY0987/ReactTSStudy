@@ -12,8 +12,8 @@ export const useProjectSearchParams = () => {
 export const useProjectModal = () => {
   const [{ projectCreate }, setProjectCreate] = useUrlQueryParam(['projectCreate'])
   const open = () => setProjectCreate({ projectCreate: true })
-  const close = () => setProjectCreate({ projectCreate: false })
-  // projectCreate是字符串类型的布尔值
+  const close = () => setProjectCreate({ projectCreate: undefined })
+  // 路由url中会转换为字符串true
   return {
     projectModalOpen: projectCreate === 'true',
     open,

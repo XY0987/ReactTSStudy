@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { Pin } from 'components/pin'
 import { useEditProject } from './project'
 import { ButtonNoPadding } from 'components/lib'
+import { useProjectModal } from './util'
 
 export interface Project {
   id: number
@@ -21,12 +22,12 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[]
   refresh?: () => void
-  projectButton: JSX.Element
 }
 
 export default function List({ users, ...props }: ListProps) {
   const { mutate } = useEditProject()
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
+  const { open } = useProjectModal()
   return (
     <Table
       pagination={false}
@@ -68,7 +69,9 @@ export default function List({ users, ...props }: ListProps) {
           render(value, project) {
             return (
               <div>
-                {props.projectButton}
+                <ButtonNoPadding type="link" onClick={open}>
+                  创建项目
+                </ButtonNoPadding>
                 <ButtonNoPadding type="link">删除</ButtonNoPadding>
               </div>
             )
