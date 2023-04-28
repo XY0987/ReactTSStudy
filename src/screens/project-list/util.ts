@@ -8,3 +8,15 @@ export const useProjectSearchParams = () => {
     setParam
   ] as const
 }
+
+export const useProjectModal = () => {
+  const [{ projectCreate }, setProjectCreate] = useUrlQueryParam(['projectCreate'])
+  const open = () => setProjectCreate({ projectCreate: true })
+  const close = () => setProjectCreate({ projectCreate: false })
+  // projectCreate是字符串类型的布尔值
+  return {
+    projectModalOpen: projectCreate === 'true',
+    open,
+    close
+  }
+}
