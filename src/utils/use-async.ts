@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useReducer } from 'react'
 import { useMountedRef } from 'utils'
 
 interface State<D> {
@@ -17,32 +17,45 @@ const defaultConfig = {
   throwOnError: false
 }
 
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  const mountedRef = useMountedRef()
+  return useCallback(
+    (...args: T[]) => {
+      mountedRef.current ? dispatch(...args) : void 0
+    },
+    [dispatch, mountedRef]
+  )
+}
+
 export const useAsync = <D>(ininialState?: State<D>, initialConfig?: typeof defaultConfig) => {
   const config = { ...defaultConfig, ...initialConfig }
-  const [state, setState] = useState<State<D>>({
-    ...defaultInitialState,
-    ...ininialState
-  })
-  const mountedRef = useMountedRef()
+  const [state, dispatch] = useReducer(
+    (state: State<D>, action: Partial<State<D>>) => ({ ...state, ...action }),
+    {
+      ...defaultInitialState,
+      ...ininialState
+    }
+  )
+  const safeDispatch = useSafeDispatch(dispatch)
   // useState传入一个函数体的话会被直接执行一遍
   const [retry, setRetry] = useState(() => () => {})
   const setData = useCallback(
     (data: D) =>
-      setState({
+      safeDispatch({
         data,
         stat: 'success',
         error: null
       }),
-    []
+    [safeDispatch]
   )
   const setError = useCallback(
     (error: Error) =>
-      setState({
+      safeDispatch({
         error,
         stat: 'error',
         data: null
       }),
-    []
+    [safeDispatch]
   )
 
   // 用来触发异步请求
@@ -58,10 +71,10 @@ export const useAsync = <D>(ininialState?: State<D>, initialConfig?: typeof defa
       })
       // 下边依赖中有state,这里又改变了state的值会陷入无限循环
       // setState({ ...state, stat: 'loading' })
-      setState((prevState) => ({ ...prevState, stat: 'loading' }))
+      safeDispatch({ stat: 'loading' })
       return promise
         .then((data) => {
-          if (mountedRef.current) setData(data)
+          setData(data)
           return data
         })
         .catch((error) => {
@@ -72,7 +85,7 @@ export const useAsync = <D>(ininialState?: State<D>, initialConfig?: typeof defa
           return error
         })
     },
-    [config.throwOnError, mountedRef, setData, setError]
+    [config.throwOnError, setData, setError, safeDispatch]
   )
 
   return {
