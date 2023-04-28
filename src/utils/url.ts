@@ -13,6 +13,7 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
         keys.reduce((prev, key) => {
           return { ...prev, [key]: searchParams.get(key) || '' }
         }, {} as { [key in K]: string }),
+      // eslint-disable-next-line
       [searchParams] //只有当searchParams改变的时候才会进行该运算
     ),
     (params: Partial<{ [key in K]: unknown }>) => {
