@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { RegisterScreen } from './register'
 import { LoginScreen } from './login'
-import { Button, Card, Divider, Typography } from 'antd'
+import { Button, Card, Divider } from 'antd'
 
 import styled from '@emotion/styled'
 
@@ -10,6 +10,8 @@ import left from 'assets/left.svg'
 import right from 'assets/right.svg'
 
 import { useDocumentTitle } from 'utils'
+
+import { ErrorBox } from 'components/lib'
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
@@ -21,7 +23,7 @@ export const UnauthenticatedApp = () => {
       <Background></Background>
       <ShadowCard>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
-        {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
+        <ErrorBox error={error}></ErrorBox>
         {isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />}
         <Divider></Divider>
         <Button type="link" onClick={() => setIsRegister(!isRegister)}>

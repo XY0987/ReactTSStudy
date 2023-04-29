@@ -26,8 +26,10 @@ interface ListProps extends TableProps<Project> {
 
 export default function List({ users, ...props }: ListProps) {
   const { mutate } = useEditProject()
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
   const { open } = useProjectModal()
+  const { startEdit } = useProjectModal()
+  const editProject = (id: number) => () => startEdit(id)
   return (
     <Table
       pagination={false}
@@ -69,8 +71,8 @@ export default function List({ users, ...props }: ListProps) {
           render(value, project) {
             return (
               <div>
-                <ButtonNoPadding type="link" onClick={open}>
-                  创建项目
+                <ButtonNoPadding type="link" onClick={editProject(project.id)}>
+                  编辑
                 </ButtonNoPadding>
                 <ButtonNoPadding type="link">删除</ButtonNoPadding>
               </div>
