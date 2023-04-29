@@ -2,8 +2,9 @@ import { Project } from './list'
 
 import { useHttp } from 'utils/http'
 
-import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { useQuery, useMutation, QueryKey } from 'react-query'
 import { cleanObject } from 'utils'
+import { useAddConfig, useDeleteConfig, useEditConfig } from 'utils/use-optimistic-options'
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp()
@@ -30,18 +31,15 @@ export const useProjects = (param?: Partial<Project>) => {
   // return result
 }
 
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp()
-  const queryClient = useQueryClient()
   return useMutation(
     (params: Partial<Project>) =>
       client(`projects/${params.id}`, {
         method: 'PATCH',
         data: params
       }),
-    {
-      onSuccess: () => queryClient.invalidateQueries('projects')
-    }
+    useEditConfig(queryKey)
   )
 
   // const { run, ...asyncResult } = useAsync()
@@ -56,18 +54,15 @@ export const useEditProject = () => {
   // return { mutate, ...asyncResult }
 }
 
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
   const client = useHttp()
-  const queryClient = useQueryClient()
   return useMutation(
     (params: Partial<Project>) =>
       client(`projects`, {
         data: params,
         method: 'POST'
       }),
-    {
-      onSuccess: () => queryClient.invalidateQueries('projects')
-    }
+    useAddConfig(queryKey)
   )
   // const { run, ...asyncResult } = useAsync()
   // const mutate = (params: Partial<Project>) => {
@@ -81,6 +76,17 @@ export const useAddProject = () => {
   //   })
   // }
   // return { mutate, ...asyncResult }
+}
+
+export const useDeleteProject = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`projects/${id}`, {
+        method: 'DELETE'
+      }),
+    useDeleteConfig(queryKey)
+  )
 }
 
 export const useProject = (id?: number) => {

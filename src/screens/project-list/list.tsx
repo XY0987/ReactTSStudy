@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { Table, TableProps } from 'antd'
+import { Modal, Table, TableProps } from 'antd'
 
 import { User } from './search-panel'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 import { Pin } from 'components/pin'
-import { useEditProject } from './project'
+import { useDeleteProject, useEditProject } from './project'
 import { ButtonNoPadding } from 'components/lib'
-import { useProjectModal } from './util'
+import { useProjectModal, useProjectsQueryKey } from './util'
 
 export interface Project {
   id: number
@@ -25,11 +25,10 @@ interface ListProps extends TableProps<Project> {
 }
 
 export default function List({ users, ...props }: ListProps) {
-  const { mutate } = useEditProject()
+  const { mutate } = useEditProject(useProjectsQueryKey())
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
   const { open } = useProjectModal()
-  const { startEdit } = useProjectModal()
-  const editProject = (id: number) => () => startEdit(id)
+
   return (
     <Table
       pagination={false}
@@ -69,18 +68,37 @@ export default function List({ users, ...props }: ListProps) {
         {
           title: '操作框',
           render(value, project) {
-            return (
-              <div>
-                <ButtonNoPadding type="link" onClick={editProject(project.id)}>
-                  编辑
-                </ButtonNoPadding>
-                <ButtonNoPadding type="link">删除</ButtonNoPadding>
-              </div>
-            )
+            return <More project={project}></More>
           }
         }
       ]}
       {...props}
     ></Table>
+  )
+}
+
+const More = ({ project }: { project: Project }) => {
+  const { startEdit } = useProjectModal()
+  const editProject = (id: number) => () => startEdit(id)
+  const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey())
+  const confirmDeleteProject = (project: Project) => {
+    Modal.confirm({
+      title: '确定删除这个项目吗',
+      content: '点击确定删除',
+      okText: '确定',
+      onOk() {
+        deleteProject(project)
+      }
+    })
+  }
+  return (
+    <div>
+      <ButtonNoPadding type="link" onClick={editProject(project.id)}>
+        编辑
+      </ButtonNoPadding>
+      <ButtonNoPadding type="link" onClick={() => confirmDeleteProject(project)}>
+        删除
+      </ButtonNoPadding>
+    </div>
   )
 }
