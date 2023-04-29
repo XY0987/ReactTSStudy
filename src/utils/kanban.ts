@@ -1,8 +1,9 @@
 import { useHttp } from 'utils/http'
 
-import { useQuery } from 'react-query'
+import { QueryKey, useMutation, useQuery } from 'react-query'
 import { cleanObject } from 'utils'
 import { kanban } from 'types/kanban'
+import { useAddConfig, useDeleteConfig } from './use-optimistic-options'
 
 export const useKanbans = (param?: Partial<kanban>) => {
   const client = useHttp()
@@ -10,4 +11,27 @@ export const useKanbans = (param?: Partial<kanban>) => {
   return useQuery<kanban[], Error>(['kanbans', param], () => {
     return client('kanbans', { data: cleanObject(param || {}) })
   })
+}
+
+export const useAddKanban = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation(
+    (params: Partial<kanban>) =>
+      client(`kanbans`, {
+        data: params,
+        method: 'POST'
+      }),
+    useAddConfig(queryKey)
+  )
+}
+
+export const useDeleteKanban = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`kanbans/${id}`, {
+        method: 'DELETE'
+      }),
+    useDeleteConfig(queryKey)
+  )
 }
