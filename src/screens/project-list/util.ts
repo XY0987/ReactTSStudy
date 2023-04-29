@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useUrlQueryParam } from 'utils/url'
+import { useSetUrlSearchParam, useUrlQueryParam } from 'utils/url'
 import { useProject } from './project'
 import { useSearchParams } from 'react-router-dom'
 
@@ -19,7 +19,7 @@ export const useProjectsQueryKey = () => {
 export const useProjectModal = () => {
   const [{ projectCreate }, setProjectCreate] = useUrlQueryParam(['projectCreate'])
   const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam(['editingProjectId'])
-  const [_, setUrlParams] = useSearchParams()
+  const setUrlParams = useSetUrlSearchParam()
 
   const { data: editingProject, isLoading } = useProject(Number(editingProjectId))
 
