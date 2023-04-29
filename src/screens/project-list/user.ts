@@ -1,5 +1,5 @@
 import { useHttp } from 'utils/http'
-import { User } from './search-panel'
+import { User } from 'types/user'
 import { useAsync } from 'utils/use-async'
 import { useEffect } from 'react'
 import { cleanObject } from 'utils'

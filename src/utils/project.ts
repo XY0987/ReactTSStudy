@@ -1,4 +1,4 @@
-import { Project } from './list'
+import { Project } from 'types/project'
 
 import { useHttp } from 'utils/http'
 

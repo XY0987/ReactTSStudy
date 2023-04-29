@@ -1,6 +1,6 @@
 import React from 'react'
 import { Popover, Typography, List, Divider } from 'antd'
-import { useProjects } from 'screens/project-list/project'
+import { useProjects } from 'utils/project'
 import styled from '@emotion/styled'
 import { ButtonNoPadding } from './lib'
 import { useProjectModal } from 'screens/project-list/util'

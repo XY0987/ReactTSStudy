@@ -5,7 +5,7 @@ import List from './list'
 import { useDebounce, useDocumentTitle } from 'utils'
 
 import styled from '@emotion/styled'
-import { useProjects } from './project'
+import { useProjects } from '../../utils/project'
 import { useUsers } from './user'
 import { useProjectModal, useProjectSearchParams } from './util'
 import { ButtonNoPadding, ErrorBox } from 'components/lib'
