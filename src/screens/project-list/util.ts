@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { useSetUrlSearchParam, useUrlQueryParam } from 'utils/url'
 import { useProject } from './project'
-import { useSearchParams } from 'react-router-dom'
 
 export const useProjectSearchParams = () => {
   const [param, setParam] = useUrlQueryParam(['name', 'personId'])
@@ -30,7 +29,7 @@ export const useProjectModal = () => {
   }
   // 路由url中会转换为字符串true
   return {
-    projectModalOpen: projectCreate === 'true' || Boolean(editingProject),
+    projectModalOpen: projectCreate === 'true' || Boolean(editingProjectId),
     open,
     close,
     startEdit,

@@ -27,8 +27,6 @@ interface ListProps extends TableProps<Project> {
 export default function List({ users, ...props }: ListProps) {
   const { mutate } = useEditProject(useProjectsQueryKey())
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
-  const { open } = useProjectModal()
-
   return (
     <Table
       pagination={false}
