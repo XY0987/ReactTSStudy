@@ -40,6 +40,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.7rem 0.7rem 1rem;
+  margin-right: 3rem;
+  overflow-y: scroll;
 `
 
 const TasksContainer = styled.div`
