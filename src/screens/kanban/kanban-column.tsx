@@ -81,6 +81,7 @@ export const Container = styled.div`
   flex-direction: column;
   padding: 0.7rem 0.7rem 1rem;
   margin-right: 3rem;
+  width: 100%;
 `
 
 const TasksContainer = styled.div`
