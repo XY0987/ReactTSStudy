@@ -17,7 +17,9 @@ const defaultConfig = {
   throwOnError: false
 }
 
+// 看组件是否挂载完毕
 const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  // useMountedRef返回一个组件的挂载状态，挂载完毕之后返回true，如果卸载之后返回false
   const mountedRef = useMountedRef()
   return useCallback(
     (...args: T[]) => {
@@ -64,6 +66,7 @@ export const useAsync = <D>(ininialState?: State<D>, initialConfig?: typeof defa
       if (!promise || !promise.then) {
         throw new Error('请传入promise类型数据')
       }
+      // 把函数缓存下来
       setRetry(() => () => {
         if (runConfig?.retry) {
           run(runConfig?.retry(), runConfig)
