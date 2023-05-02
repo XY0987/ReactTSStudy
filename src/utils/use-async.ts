@@ -32,6 +32,7 @@ const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
 export const useAsync = <D>(ininialState?: State<D>, initialConfig?: typeof defaultConfig) => {
   const config = { ...defaultConfig, ...initialConfig }
   const [state, dispatch] = useReducer(
+    // 这里的action与以往的{type:'',value:xxx}的形式不一样(这里是直接把传入的值与之前的值合并)
     (state: State<D>, action: Partial<State<D>>) => ({ ...state, ...action }),
     {
       ...defaultInitialState,
