@@ -1,4 +1,3 @@
-import { useForm } from 'antd/es/form/Form'
 import React, { useEffect } from 'react'
 import { useTasksModal, useTasksQueryKey } from './util'
 import { useDeleteTask, useEditTask } from 'utils/task'
@@ -13,7 +12,7 @@ const layout = {
 
 export const TaskModal = () => {
   const { mutateAsync: editTask, isLoading: editLoading } = useEditTask(useTasksQueryKey())
-  const [form] = useForm()
+  const [form] = Form.useForm()
   const { editingTaskId, editingTask, close } = useTasksModal()
   const onCancel = () => {
     close()

@@ -3,7 +3,6 @@ import { Drawer, Button, Spin, Form, Input } from 'antd'
 import { useProjectModal, useProjectsQueryKey } from './util'
 import { UserSelect } from 'components/user-select'
 import { useAddProject, useEditProject } from '../../utils/project'
-import { useForm } from 'antd/es/form/Form'
 import { ErrorBox } from 'components/lib'
 import styled from '@emotion/styled'
 
@@ -12,7 +11,7 @@ export const ProjectModal = () => {
 
   const useMutateProject = editingProject ? useEditProject : useAddProject
   const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject(useProjectsQueryKey())
-  const [form] = useForm()
+  const [form] = Form.useForm()
   const onFinish = (values: any) => {
     mutateAsync({ ...editingProject, ...values }).then(() => {
       form.resetFields()
